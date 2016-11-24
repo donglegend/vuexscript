@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        button{
+            line-height: 30px;
+        }
+        b{
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        Clicked: <b>{{ $store.state.count }}</b> times, count is <b>{{ $store.getters.evenOrOdd }}</b>.
+        <button @click="increment">+</button>
+    </div>
+    <script type="text/javascript" src="vue.min.js"></script>
+    <script type="text/javascript" src="vuex.min.js"></script>
+    <script type="text/javascript">
+    var state = {
+        count: 0
+    }
+
+    var mutations = {
+        increment: function(state) {
+            state.count++
+        }
+    }
+
+    var actions = {
+        increment: function(o) {
+            o.commit('increment')
+        }
+    }
+
+    var getters = {
+        evenOrOdd: function(state) {
+            return state.count % 2 === 0 ? 'even' : 'odd'
+        }
+    }
+
+    var store = new Vuex.Store({
+        state: state,
+        getters: getters,
+        actions: actions,
+        mutations: mutations
+    })
+
+    new Vue({
+        el: '#app',
+        store: store,
+        computed: Vuex.mapGetters([
+            'evenOrOdd'
+        ]),
+        methods: Vuex.mapActions([
+            'increment'
+        ])
+    })
+    </script>
+</body>
+
+</html>
